@@ -304,23 +304,37 @@ class Car : public Vehicle
 {
 public:
     Car();
-    virtual void    SetAcceleration(float _a);
-    float           GetSpeed() const;
+    /*virtual void    SetAcceleration(float _a);
+    float           GetSpeed() const;*/
+
+    float SpeedUp()
+    {
+        speed = _SpeedUp(speed);
+    };
+    float SpeedDown()
+    {
+        speed -= s_down;
+    };
+    void UP()
+    {
+        float speed;
+        float s_down = 2.0f;
+    };
 
     // publicが続くのでアクセス指定子を変更する意味合いはないが、
     // 上のブロックがpublicなSet,Getでここからのpublicは処理系を
     // まとめたブロックとして分けて見やすくしている。
-public:
-    void    Update();
-
-private:
-    void    setSpeed(float _s); // 速度は加速度を用いた計算でのみ変更できるようにしたいので、
-                                // privateにしておく。
-protected:
-    float   acceleration;
-private:
-    float   speed;
-};
+//public:
+//    void    Update();
+//
+//private:
+//    void    setSpeed(float _s); // 速度は加速度を用いた計算でのみ変更できるようにしたいので、
+//                                // privateにしておく。
+//protected:
+//    float   acceleration;
+//private:
+//    float   speed;
+//};
 
 class PoliceCar : public Car
 {
