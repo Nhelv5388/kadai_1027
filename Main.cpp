@@ -269,8 +269,7 @@ int main()
 */ 
 class Object
 {
-public:
-    Object();
+
 public:
     virtual void Update(float num)
     {
@@ -280,165 +279,56 @@ public:
         printf("z=%f\n", z);
     };
 private:
-    float x = 0;
-    float y = 0;
-    float z = 0;
+    int x = 0;
+    int y = 0;
+    int z = 0;
 };
 class Vehicle : public Object
 {
+
 public:
-    Vehicle();
-public:
-    virtual SpeedUp(float num)
+    virtual void setSpeed(float s)
     {
-        num += speed;
-        return num;
-    }
+        speed += accel;
+        return speed;
+    };
+    virtual void Update()
+    {
+        x += speed;
+        printf("%f\n", speed);
+    };
+
+    int speed = 10;
+    int accel = 1;
 
 private:
-    float speed=10.0f;
-    float accel=1.0f;
+    
+        
 };
 
 class Car : public Vehicle
 {
 public:
-    Car();
-    /*virtual void    SetAcceleration(float _a);
-    float           GetSpeed() const;*/
-
-    float SpeedUp()
+    Car()
     {
-        speed = _SpeedUp(speed);
+        speed = 5;
+        accel = 5;
     };
-    float SpeedDown()
+    void Update()
     {
-        speed -= s_down;
-    };
-    void UP()
-    {
-        float speed;
-        float s_down = 2.0f;
-    };
-
-    // publicが続くのでアクセス指定子を変更する意味合いはないが、
-    // 上のブロックがpublicなSet,Getでここからのpublicは処理系を
-    // まとめたブロックとして分けて見やすくしている。
-//public:
-//    void    Update();
-//
-//private:
-//    void    setSpeed(float _s); // 速度は加速度を用いた計算でのみ変更できるようにしたいので、
-//                                // privateにしておく。
-//protected:
-//    float   acceleration;
-//private:
-//    float   speed;
-//};
-
-class PoliceCar : public Car
-{
-public:
-    PoliceCar() { sirenFlag = false; }
-
-public:
-    void SirenOn()
-    {
-        sirenFlag = true;
-        printf("サイレン機能をOnにしました。\n");
+        Vehicle::Update();
     }
-    void SirenOff()
-    {
-        sirenFlag = false;
-        printf("サイレン機能をOffにしました。\n");
-    }
-    virtual void    SetAcceleration(float _a);
 private:
-    bool    sirenFlag;
+
 };
-
-
-
-
-// コンストラクタ
-Car::Car()
-{
-    acceleration = speed = 0.0f;
-}
-
-//
-void Car::SetAcceleration(float _a)
-{
-    if (_a < -10 || _a > 5)
-    {
-        printf("SetAcceleration Error\n");
-        return;
-    }
-    acceleration = _a;
-}
-
-// 
-float Car::GetSpeed() const
-{
-    return speed;
-}
-
-//
-void Car::Update()
-{
-    setSpeed(acceleration);
-}
-
-//
-void Car::setSpeed(float _s)
-{
-    float tmpSpeed = speed + _s;
-    if (tmpSpeed < -30 || tmpSpeed > 200)
-    {
-        printf("setSpeed Error.\n");
-        return;
-    }
-    speed = tmpSpeed;
-}
-
-//
-void PoliceCar::SetAcceleration(float _a)
-{
-    if (_a < -100 || _a > 50)
-    {
-        printf("SetAcceleration Error\n");
-        return;
-    }
-    acceleration = _a;
-}
-
-
-
 int main()
 {
-    PoliceCar policeCar;
-    Car* car = &policeCar;
-
-    policeCar.SirenOn();
-    policeCar.SirenOff();
-
-
-    // もちろんCarの機能もすべて使える 
-    car->SetAcceleration(50.0f);
-
-    for (int i = 0; i < 100; ++i)
+    Car car;
+    for (int i = 0; i < 10; i++)
     {
-        car->Update();
-        printf("Speed = %f\n", car->GetSpeed());
+        car.setSpeed();
+        car.Update();
     }
-    car->SetAcceleration(-0.1f);
-
-    for (int i = 0; i < 100; ++i)
-    {
-        car->Update();
-        printf("Speed = %f\n", car->GetSpeed());
-    }
-
 }
 
 
